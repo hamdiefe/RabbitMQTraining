@@ -1,5 +1,6 @@
 ﻿using RabbitMQ.Client;
 using System;
+using System.Linq;
 using System.Text;
 
 namespace RabbitMQ.Publisher
@@ -16,10 +17,17 @@ namespace RabbitMQ.Publisher
             {
                 var channel = connection.CreateModel();
                 channel.QueueDeclare("hello-queue", true, false, false);
-                var message = "Hello World";
-                var messageBody = Encoding.UTF8.GetBytes(message);
-                channel.BasicPublish(string.Empty, "hello-queue", null, messageBody);
-                Console.WriteLine("Mesaj Gönderildi.");
+
+
+
+                Enumerable.Range(1, 50).ToList().ForEach(x =>
+                {
+                    var message = $"Message: {x}";
+                    var messageBody = Encoding.UTF8.GetBytes(message);
+                    channel.BasicPublish(string.Empty, "hello-queue", null, messageBody);
+                    Console.WriteLine($"Mesaj Gönderildi: {message}");
+                });
+
                 Console.ReadLine();
             }
 
