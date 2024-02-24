@@ -9,17 +9,18 @@ namespace RabbitMQ.Publisher
         static void Main(string[] args)
         {
             var factory = new ConnectionFactory();
-            factory.Uri = new Uri("amqps://xnyudbqc:P7iGw2JCjmXYBhfU7co79ZpptepxQylq@beaver.rmq.cloudamqp.com/xnyudbqc");
+            factory.Uri = new Uri("amqps://uoezbjbp:ISRzzK1r1kKBR46UUPc4WQpBEjcWKLW1@beaver.rmq.cloudamqp.com/uoezbjbp");
 
 
             using (var connection = factory.CreateConnection())
             {
                 var channel = connection.CreateModel();
-                channel.QueueDeclare("Hello Queue", true, false, false);
+                channel.QueueDeclare("hello-queue", true, false, false);
                 var message = "Hello World";
                 var messageBody = Encoding.UTF8.GetBytes(message);
-                channel.BasicPublish(string.Empty, "Hello Queue", null, messageBody);
+                channel.BasicPublish(string.Empty, "hello-queue", null, messageBody);
                 Console.WriteLine("Mesaj Gönderildi.");
+                Console.ReadLine();
             }
 
         }
